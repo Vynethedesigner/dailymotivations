@@ -27,12 +27,30 @@ export default function HomePage() {
 
   // Subscribe
   const [email, setEmail] = useState('');
+  const [consent, setConsent] = useState(false);
   const [subscribing, setSubscribing] = useState(false);
   const [subscribeMessage, setSubscribeMessage] = useState('');
   const [subscribeError, setSubscribeError] = useState(false);
 
   // Share
   const shareRef = useRef<HTMLDivElement>(null);
+
+  // Theme
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+
+  useEffect(() => {
+    const saved = localStorage.getItem('motive-theme') as 'light' | 'dark' | null;
+    const preferred = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    setTheme(preferred);
+    document.documentElement.setAttribute('data-theme', preferred);
+  }, []);
+
+  const toggleTheme = () => {
+    const next = theme === 'light' ? 'dark' : 'light';
+    setTheme(next);
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('motive-theme', next);
+  };
 
   const fetchMotivation = useCallback(async () => {
     try {
@@ -75,13 +93,21 @@ export default function HomePage() {
         height: 1080,
       });
 
-      // Create download link
       const link = document.createElement('a');
-      link.download = `daily-motivation-${Date.now()}.png`;
+      link.download = `motive-${Date.now()}.png`;
       link.href = dataUrl;
       link.click();
     } catch (err) {
       console.error('Failed to generate image:', err);
+    }
+  };
+
+  const handleCopyLink = async () => {
+    if (!motivation) return;
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+    } catch (err) {
+      console.error('Failed to copy link:', err);
     }
   };
 
@@ -118,6 +144,7 @@ export default function HomePage() {
 
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!consent) return;
     setSubscribing(true);
     setSubscribeMessage('');
     setSubscribeError(false);
@@ -139,6 +166,7 @@ export default function HomePage() {
 
       setSubscribeMessage(data.message);
       setEmail('');
+      setConsent(false);
     } catch {
       setSubscribeMessage('Something went wrong. Please try again.');
       setSubscribeError(true);
@@ -163,16 +191,42 @@ export default function HomePage() {
       {/* ── Header ── */}
       <header className={styles.header}>
         <div className={styles.logo}>
-          <div className={styles.logoIcon}>✦</div>
-          <span>Daily Motivations</span>
+          <div className={styles.logoIcon}>◆</div>
+          <span className={styles.logoText}>Motive.</span>
         </div>
         <div className={styles.headerActions}>
+          <button
+            className={`${styles.themeToggle} ${theme === 'dark' ? styles.themeToggleDark : ''}`}
+            onClick={toggleTheme}
+            aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+            id="theme-toggle"
+          >
+            <div className={styles.themeToggleThumb}>
+              {theme === 'light' ? (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="5" />
+                  <line x1="12" y1="1" x2="12" y2="3" />
+                  <line x1="12" y1="21" x2="12" y2="23" />
+                  <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                  <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                  <line x1="1" y1="12" x2="3" y2="12" />
+                  <line x1="21" y1="12" x2="23" y2="12" />
+                  <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                  <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                </svg>
+              ) : (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                </svg>
+              )}
+            </div>
+          </button>
           <button
             className={styles.headerBtn}
             onClick={() => setShowSubmit(true)}
             id="submit-btn"
           >
-            Submit
+            Submit Motivation
           </button>
         </div>
       </header>
@@ -196,101 +250,174 @@ export default function HomePage() {
               <blockquote className={styles.motivationText}>
                 {motivation.text}
               </blockquote>
-              {motivation.author && (
-                <p className={styles.motivationAuthor}>{motivation.author}</p>
-              )}
-              {!motivation.author && (
-                <p className={styles.motivationAuthor}>Anonymous</p>
-              )}
+              <p className={styles.motivationAuthor}>
+                — {motivation.author || 'Anonymous'}
+              </p>
             </div>
           ) : (
             <div className={styles.motivationCard}>
-              <p className={styles.motivationText} style={{ fontSize: '1.2rem', color: 'var(--color-text-secondary)' }}>
+              <p className={styles.motivationText} style={{ fontSize: '1.2rem', fontStyle: 'normal' }}>
                 No motivations yet. Be the first to submit one!
               </p>
             </div>
           )}
-
-          {/* ── Action Buttons ── */}
-          <div className={styles.actions}>
-            <button
-              className={styles.actionBtn}
-              onClick={() => setShowSubmit(true)}
-              title="Submit a motivation"
-              id="action-submit"
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
-              </svg>
-              <span className={styles.actionLabel}>Submit</span>
-            </button>
-
-            <button
-              className={`${styles.actionBtn} ${styles.actionBtnPrimary} ${refreshing ? styles.refreshing : ''}`}
-              onClick={handleRefresh}
-              disabled={refreshing}
-              title="Get new motivation"
-              id="action-refresh"
-            >
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" />
-                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
-              </svg>
-              <span className={styles.actionLabel}>New</span>
-            </button>
-
-            <button
-              className={styles.actionBtn}
-              onClick={handleShare}
-              title="Share as image"
-              id="action-share"
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
-                <polyline points="16 6 12 2 8 6" />
-                <line x1="12" y1="2" x2="12" y2="15" />
-              </svg>
-              <span className={styles.actionLabel}>Share</span>
-            </button>
-          </div>
         </section>
 
-        {/* ── Subscribe Section ── */}
-        <section className={styles.subscribeSection} aria-label="Subscribe to daily motivations">
-          <p className={styles.subscribeLabel}>Get a daily motivation in your inbox</p>
-          <form className={styles.subscribeForm} onSubmit={handleSubscribe}>
-            <input
-              className={styles.subscribeInput}
-              type="email"
-              placeholder="your@email.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              id="subscribe-email"
-            />
-            <button
-              className={styles.subscribeBtn}
-              type="submit"
-              disabled={subscribing}
-              id="subscribe-btn"
-            >
-              {subscribing ? 'Subscribing...' : 'Subscribe'}
-            </button>
-          </form>
-          {subscribeMessage && (
-            <p className={`${styles.subscribeMessage} ${subscribeError ? styles.subscribeError : ''}`}>
-              {subscribeMessage}
-            </p>
-          )}
+        {/* ── Action Bar ── */}
+        <div className={styles.actionBar}>
+          <button
+            className={`${styles.refreshBtn} ${refreshing ? styles.refreshing : ''}`}
+            onClick={handleRefresh}
+            disabled={refreshing}
+            id="action-refresh"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" />
+              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
+            </svg>
+            Refresh Insight
+          </button>
+
+          <div className={styles.shareGroup}>
+            <span className={styles.shareLabel}>Share This</span>
+            <div className={styles.shareIcons}>
+              {/* X (Twitter) */}
+              <button
+                className={styles.shareIconBtn}
+                onClick={() => {
+                  if (!motivation) return;
+                  const text = `"${motivation.text}" — ${motivation.author || 'Anonymous'}`;
+                  window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
+                }}
+                title="Share on X"
+                id="share-x"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                </svg>
+              </button>
+
+              {/* Instagram (download image) */}
+              <button
+                className={styles.shareIconBtn}
+                onClick={handleShare}
+                title="Download for Instagram"
+                id="share-instagram"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                </svg>
+              </button>
+
+              {/* Email */}
+              <button
+                className={styles.shareIconBtn}
+                onClick={() => {
+                  if (!motivation) return;
+                  const subject = 'Daily Motivation';
+                  const body = `"${motivation.text}" — ${motivation.author || 'Anonymous'}\n\nShared via Motive.`;
+                  window.open(`mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
+                }}
+                title="Share via email"
+                id="share-email"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="4" width="20" height="16" rx="2" />
+                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                </svg>
+              </button>
+
+              {/* Copy Link */}
+              <button
+                className={styles.shareIconBtn}
+                onClick={handleCopyLink}
+                title="Copy link"
+                id="share-link"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Content Section ── */}
+        <section className={styles.contentSection}>
+          <h1 className={styles.contentHeading}>A Spark of Light, Daily.</h1>
+          <p className={styles.contentDescription}>
+            Fuel your journey with curated wisdom and daily inspiration. Join our
+            community for gentle reminders that encourage growth, resilience, and
+            intentional living.
+          </p>
+
+          {/* ── Subscribe ── */}
+          <div className={styles.subscribeSection}>
+            <p className={styles.subscribeLabel}>Where should we send your motivation?</p>
+            <form className={styles.subscribeForm} onSubmit={handleSubscribe}>
+              <input
+                className={styles.subscribeInput}
+                type="email"
+                placeholder="name@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                id="subscribe-email"
+              />
+              <div className={styles.consentGroup}>
+                <input
+                  className={styles.consentCheckbox}
+                  type="checkbox"
+                  id="consent-check"
+                  checked={consent}
+                  onChange={(e) => setConsent(e.target.checked)}
+                />
+                <label className={styles.consentLabel} htmlFor="consent-check">
+                  I consent to receive emails and agree to the{' '}
+                  <a href="#privacy">Privacy Policy</a>.
+                </label>
+              </div>
+              <button
+                className={styles.subscribeBtn}
+                type="submit"
+                disabled={subscribing || !consent}
+                id="subscribe-btn"
+              >
+                {subscribing ? 'Subscribing...' : 'Start My Journey'}
+              </button>
+            </form>
+            {subscribeMessage && (
+              <p className={`${styles.subscribeMessage} ${subscribeError ? styles.subscribeError : ''}`}>
+                {subscribeMessage}
+              </p>
+            )}
+          </div>
         </section>
       </main>
 
       {/* ── Footer ── */}
       <footer className={styles.footer}>
-        <p className={styles.footerText}>
-          Built with intention · One message at a time ·{' '}
-          <a href="/admin" className={styles.footerLink}>Admin</a>
-        </p>
+        <div className={styles.footerInner}>
+          <div className={styles.footerBrand}>
+            <div className={styles.footerLogo}>Motive.</div>
+            <p className={styles.footerTagline}>
+              Curating intentionality for a more mindful existence. Grounded in terracotta, inspired by the light.
+            </p>
+          </div>
+          <div className={styles.footerRight}>
+            <div className={styles.footerLinks}>
+              <a href="#terms" className={styles.footerLink}>Terms</a>
+              <a href="#privacy" className={styles.footerLink}>Privacy</a>
+              <a href="#contact" className={styles.footerLink}>Contact</a>
+            </div>
+            <p className={styles.footerCopyright}>
+              © {new Date().getFullYear()} Daily Motivations — All Rights Reserved
+            </p>
+          </div>
+        </div>
       </footer>
 
       {/* ── Share Card (Hidden, for image generation) ── */}
@@ -301,7 +428,7 @@ export default function HomePage() {
           {motivation.author && (
             <p className={styles.shareAuthor}>— {motivation.author}</p>
           )}
-          <div className={styles.shareBranding}>dailymotivations.com</div>
+          <div className={styles.shareBranding}>Motive.</div>
           <div className={styles.shareAccentLine} />
         </div>
       )}

@@ -1,39 +1,46 @@
 /* ═══════════════════════════════════════════════════════
-   Daily Motivations — Design System
-   "One message. That's all you need today."
+   Motive. — Design System
+   "A Spark of Light, Daily."
    ═══════════════════════════════════════════════════════ */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap');
 
 /* ── CSS Custom Properties ── */
 :root {
-  /* Colors — Warm, intentional palette */
-  --color-bg: #0a0a0c;
-  --color-bg-elevated: #131318;
-  --color-bg-card: #1a1a22;
-  --color-bg-overlay: rgba(10, 10, 12, 0.85);
+  /* Colors — Warm terracotta palette */
+  --color-bg: #FAF7F2;
+  --color-bg-elevated: #FFFFFF;
+  --color-bg-card: #44403C;
+  --color-bg-card-border: #8B5E3C;
+  --color-bg-overlay: rgba(250, 247, 242, 0.9);
 
-  --color-surface: #1e1e28;
-  --color-surface-hover: #252530;
-  --color-border: rgba(255, 255, 255, 0.06);
-  --color-border-hover: rgba(255, 255, 255, 0.12);
+  --color-surface: #F5F0E8;
+  --color-surface-hover: #EDE7DC;
+  --color-border: #D4C9BA;
+  --color-border-hover: #B8A996;
 
-  --color-text-primary: #f5f0eb;
-  --color-text-secondary: #9a9494;
-  --color-text-muted: #5a5555;
+  --color-text-primary: #2C1810;
+  --color-text-secondary: #5C4A3A;
+  --color-text-muted: #9A8A7A;
+  --color-text-on-dark: #F5F0EB;
+  --color-text-on-card: #E8E0D8;
 
-  --color-accent: #e8a87c;
-  --color-accent-hover: #f0bb93;
-  --color-accent-subtle: rgba(232, 168, 124, 0.1);
-  --color-accent-glow: rgba(232, 168, 124, 0.15);
+  --color-accent: #C45A3C;
+  --color-accent-hover: #A84830;
+  --color-accent-subtle: rgba(196, 90, 60, 0.08);
+  --color-accent-glow: rgba(196, 90, 60, 0.15);
 
-  --color-success: #7ec8a0;
-  --color-error: #e87c7c;
-  --color-warning: #e8c87c;
+  --color-dark: #3D2B1F;
+  --color-dark-hover: #2C1810;
+  --color-footer-bg: #2C1810;
+
+  --color-success: #4A8B6A;
+  --color-error: #C45A3C;
+  --color-warning: #C49A3C;
 
   /* Typography */
-  --font-serif: 'Playfair Display', Georgia, serif;
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-serif: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
   /* Spacing */
   --space-xs: 4px;
@@ -46,10 +53,10 @@
   --space-4xl: 96px;
 
   /* Border Radius */
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 20px;
   --radius-full: 9999px;
 
   /* Transitions */
@@ -59,14 +66,53 @@
   --transition-spring: 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
   /* Shadows */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
-  --shadow-glow: 0 0 40px var(--color-accent-glow);
+  --shadow-sm: 0 1px 3px rgba(44, 24, 16, 0.06);
+  --shadow-md: 0 4px 12px rgba(44, 24, 16, 0.08);
+  --shadow-lg: 0 8px 32px rgba(44, 24, 16, 0.1);
+  --shadow-card: 0 12px 48px rgba(44, 24, 16, 0.12);
 
   /* Layout */
-  --max-width: 720px;
-  --header-height: 64px;
+  --max-width: 1100px;
+  --content-width: 720px;
+  --header-height: 72px;
+}
+
+/* ── Dark Mode ── */
+[data-theme="dark"] {
+  --color-bg: #0F0D0B;
+  --color-bg-elevated: #1A1714;
+  --color-bg-card: #2A2520;
+  --color-bg-card-border: #8B5E3C;
+  --color-bg-overlay: rgba(15, 13, 11, 0.92);
+
+  --color-surface: #1E1B17;
+  --color-surface-hover: #262220;
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-hover: rgba(255, 255, 255, 0.14);
+
+  --color-text-primary: #F5F0EB;
+  --color-text-secondary: #A89A8A;
+  --color-text-muted: #6A5E52;
+  --color-text-on-dark: #F5F0EB;
+  --color-text-on-card: #E8E0D8;
+
+  --color-accent: #D4704E;
+  --color-accent-hover: #E0825E;
+  --color-accent-subtle: rgba(212, 112, 78, 0.1);
+  --color-accent-glow: rgba(212, 112, 78, 0.2);
+
+  --color-dark: #F5F0EB;
+  --color-dark-hover: #FFFFFF;
+  --color-footer-bg: #0A0908;
+
+  --color-success: #7EC8A0;
+  --color-error: #D4704E;
+  --color-warning: #D4A84E;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --shadow-card: 0 12px 48px rgba(0, 0, 0, 0.4);
 }
 
 /* ── Reset & Base ── */
@@ -94,45 +140,20 @@ body {
   overflow-x: hidden;
 }
 
-/* ── Ambient Background ── */
-body::before {
-  content: '';
-  position: fixed;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(
-    ellipse at 30% 20%,
-    rgba(232, 168, 124, 0.03) 0%,
-    transparent 50%
-  ),
-  radial-gradient(
-    ellipse at 70% 80%,
-    rgba(126, 200, 160, 0.02) 0%,
-    transparent 50%
-  );
-  pointer-events: none;
-  z-index: 0;
-  animation: ambientDrift 30s ease-in-out infinite alternate;
-}
-
-@keyframes ambientDrift {
-  0% { transform: translate(0, 0) rotate(0deg); }
-  100% { transform: translate(-2%, -1%) rotate(1deg); }
-}
-
 /* ── Scrollbar ── */
 ::-webkit-scrollbar {
   width: 6px;
 }
+
 ::-webkit-scrollbar-track {
   background: var(--color-bg);
 }
+
 ::-webkit-scrollbar-thumb {
-  background: var(--color-border-hover);
+  background: var(--color-border);
   border-radius: var(--radius-full);
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-text-muted);
 }
@@ -146,7 +167,7 @@ body::before {
 /* ── Selection ── */
 ::selection {
   background: var(--color-accent);
-  color: var(--color-bg);
+  color: #fff;
 }
 
 /* ── Link Reset ── */
@@ -165,7 +186,8 @@ button {
 }
 
 /* ── Input Reset ── */
-input, textarea {
+input,
+textarea {
   font-family: inherit;
   color: inherit;
   background: none;
@@ -188,15 +210,21 @@ input, textarea {
 
 /* ── Animations ── */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(24px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -206,8 +234,9 @@ input, textarea {
 @keyframes fadeInDown {
   from {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(-12px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -219,6 +248,7 @@ input, textarea {
     opacity: 0;
     transform: scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -230,6 +260,7 @@ input, textarea {
     transform: translateY(100%);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
@@ -237,57 +268,47 @@ input, textarea {
 }
 
 @keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
 }
 
 @keyframes gentleFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
 }
 
-@keyframes rotateIn {
-  from { transform: rotate(-180deg); opacity: 0; }
-  to { transform: rotate(0deg); opacity: 1; }
-}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
 
-/* ── Toast Notifications ── */
-.toast-container {
-  position: fixed;
-  bottom: var(--space-lg);
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  pointer-events: none;
-}
-
-.toast {
-  pointer-events: auto;
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border);
-  padding: var(--space-md) var(--space-lg);
-  border-radius: var(--radius-md);
-  font-size: 0.875rem;
-  color: var(--color-text-primary);
-  box-shadow: var(--shadow-lg);
-  animation: slideUp var(--transition-spring) forwards;
-  backdrop-filter: blur(20px);
-}
-
-.toast.success {
-  border-color: rgba(126, 200, 160, 0.3);
-}
-
-.toast.error {
-  border-color: rgba(232, 124, 124, 0.3);
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* ── Responsive ── */

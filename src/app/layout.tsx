@@ -2,20 +2,20 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Daily Motivations — One message. That's all you need today.",
+  title: "Motive. — A Spark of Light, Daily.",
   description:
-    "A clean, distraction-free space where you receive one impactful motivation. No feeds, no noise — just one powerful message to carry with you.",
-  keywords: ["motivation", "daily motivation", "inspiration", "quotes", "mindfulness"],
+    "Fuel your journey with curated wisdom and daily inspiration. Join our community for gentle reminders that encourage growth, resilience, and intentional living.",
+  keywords: ["motivation", "daily motivation", "inspiration", "quotes", "mindfulness", "motive"],
   openGraph: {
-    title: "Daily Motivations",
-    description: "One message. That's all you need today.",
+    title: "Motive.",
+    description: "A Spark of Light, Daily.",
     type: "website",
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Daily Motivations",
-    description: "One message. That's all you need today.",
+    title: "Motive.",
+    description: "A Spark of Light, Daily.",
   },
 };
 
