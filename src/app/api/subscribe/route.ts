@@ -1,10 +1,8 @@
 import { NextResponse } from 'next/server';
-import { createPublicClient } from '@/lib/supabase';
 
-// POST /api/subscribe — Subscribe to daily motivations
+// POST /api/subscribe — Subscribe to daily motivations (DUMMY MODE)
 export async function POST(request: Request) {
     try {
-        const supabase = createPublicClient();
         const body = await request.json();
         const { email } = body;
 
@@ -24,44 +22,7 @@ export async function POST(request: Request) {
             );
         }
 
-        // Check if already subscribed
-        const { data: existing } = await supabase
-            .from('subscribers')
-            .select('id, is_active')
-            .eq('email', email.trim().toLowerCase())
-            .single();
-
-        if (existing) {
-            if (existing.is_active) {
-                return NextResponse.json(
-                    { message: 'You\'re already subscribed! Look out for your daily motivation.' },
-                    { status: 200 }
-                );
-            } else {
-                // Reactivate
-                await supabase
-                    .from('subscribers')
-                    .update({ is_active: true })
-                    .eq('id', existing.id);
-
-                return NextResponse.json(
-                    { message: 'Welcome back! Your subscription has been reactivated.' },
-                    { status: 200 }
-                );
-            }
-        }
-
-        // Insert new subscriber
-        const { error } = await supabase
-            .from('subscribers')
-            .insert({
-                email: email.trim().toLowerCase(),
-                is_active: true,
-                confirmed: true,
-            });
-
-        if (error) throw error;
-
+        // Simulate success
         return NextResponse.json(
             { message: 'You\'re subscribed! You\'ll receive a daily motivation in your inbox.' },
             { status: 201 }
