@@ -1,0 +1,568 @@
+/* ═══════════════════════════════════════════════════════
+   Admin Panel Styles
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Login ── */
+.loginPage {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-lg);
+    position: relative;
+    z-index: 1;
+}
+
+.loginCard {
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-2xl);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    animation: scaleIn var(--transition-spring) ease;
+}
+
+.loginIcon {
+    font-size: 2rem;
+    margin-bottom: var(--space-md);
+}
+
+.loginTitle {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    margin-bottom: var(--space-sm);
+}
+
+.loginSubtext {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-lg);
+}
+
+.loginForm {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.loginInput {
+    padding: var(--space-md);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    color: var(--color-text-primary);
+    text-align: center;
+    transition: border-color var(--transition-base);
+}
+
+.loginInput:focus {
+    border-color: var(--color-accent);
+}
+
+.loginInput::placeholder {
+    color: var(--color-text-muted);
+}
+
+.loginBtn {
+    padding: var(--space-md);
+    background: linear-gradient(135deg, var(--color-accent), #d4956a);
+    color: var(--color-bg);
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-base);
+}
+
+.loginBtn:hover {
+    box-shadow: var(--shadow-glow);
+}
+
+.loginBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.loginError {
+    color: var(--color-error);
+    font-size: 0.8rem;
+}
+
+/* ── Admin Layout ── */
+.adminPage {
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+}
+
+.adminHeader {
+    padding: var(--space-lg) var(--space-xl);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-bg-elevated);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.adminHeaderLeft {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.backLink {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    transition: color var(--transition-fast);
+}
+
+.backLink:hover {
+    color: var(--color-accent);
+}
+
+.adminTitle {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.logoutBtn {
+    padding: var(--space-sm) var(--space-md);
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+}
+
+.logoutBtn:hover {
+    color: var(--color-error);
+    border-color: rgba(232, 124, 124, 0.3);
+}
+
+/* ── Tabs ── */
+.tabs {
+    display: flex;
+    border-bottom: 1px solid var(--color-border);
+    padding: 0 var(--space-xl);
+    background: var(--color-bg-elevated);
+}
+
+.tab {
+    padding: var(--space-md) var(--space-lg);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+    border-bottom: 2px solid transparent;
+    transition: all var(--transition-base);
+    margin-bottom: -1px;
+}
+
+.tab:hover {
+    color: var(--color-text-secondary);
+}
+
+.tabActive {
+    color: var(--color-accent);
+    border-bottom-color: var(--color-accent);
+}
+
+/* ── Content Area ── */
+.adminContent {
+    padding: var(--space-xl);
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+/* ── Filter Bar ── */
+.filterBar {
+    display: flex;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-lg);
+    flex-wrap: wrap;
+}
+
+.filterBtn {
+    padding: var(--space-sm) var(--space-md);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    transition: all var(--transition-fast);
+}
+
+.filterBtn:hover {
+    border-color: var(--color-border-hover);
+    color: var(--color-text-secondary);
+}
+
+.filterBtnActive {
+    background: var(--color-accent-subtle);
+    border-color: rgba(232, 168, 124, 0.2);
+    color: var(--color-accent);
+}
+
+/* ── Stats ── */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+}
+
+.statCard {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    text-align: center;
+}
+
+.statValue {
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-xs);
+}
+
+.statLabel {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+}
+
+/* ── Motivation Row ── */
+.motivationList {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.motivationRow {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    transition: border-color var(--transition-fast);
+    animation: fadeInUp var(--transition-base) ease;
+}
+
+.motivationRow:hover {
+    border-color: var(--color-border-hover);
+}
+
+.rowContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-md);
+}
+
+.rowText {
+    flex: 1;
+}
+
+.rowMotivation {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-sm);
+}
+
+.rowMeta {
+    display: flex;
+    gap: var(--space-md);
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+}
+
+.statusBadge {
+    display: inline-flex;
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.statusPending {
+    background: rgba(232, 200, 124, 0.1);
+    color: var(--color-warning);
+}
+
+.statusApproved {
+    background: rgba(126, 200, 160, 0.1);
+    color: var(--color-success);
+}
+
+.statusRejected {
+    background: rgba(232, 124, 124, 0.1);
+    color: var(--color-error);
+}
+
+.rowActions {
+    display: flex;
+    gap: var(--space-sm);
+    flex-shrink: 0;
+}
+
+.rowBtn {
+    padding: var(--space-sm) var(--space-md);
+    font-size: 0.7rem;
+    font-weight: 500;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    transition: all var(--transition-fast);
+}
+
+.rowBtn:hover {
+    border-color: var(--color-border-hover);
+    color: var(--color-text-primary);
+}
+
+.rowBtnApprove {
+    border-color: rgba(126, 200, 160, 0.3);
+    color: var(--color-success);
+}
+
+.rowBtnApprove:hover {
+    background: rgba(126, 200, 160, 0.1);
+}
+
+.rowBtnReject {
+    border-color: rgba(232, 124, 124, 0.2);
+    color: var(--color-error);
+}
+
+.rowBtnReject:hover {
+    background: rgba(232, 124, 124, 0.1);
+}
+
+.rowBtnDelete {
+    border-color: rgba(232, 124, 124, 0.15);
+    color: var(--color-text-muted);
+}
+
+.rowBtnDelete:hover {
+    background: rgba(232, 124, 124, 0.1);
+    color: var(--color-error);
+}
+
+/* ── Subscriber Row ── */
+.subscriberList {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+}
+
+.subscriberRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-md) var(--space-lg);
+    background: var(--color-surface);
+}
+
+.subscriberEmail {
+    font-size: 0.875rem;
+    color: var(--color-text-primary);
+}
+
+.subscriberMeta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+}
+
+/* ── Export Button ── */
+.exportBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-lg);
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--color-accent);
+    border: 1px solid rgba(232, 168, 124, 0.2);
+    border-radius: var(--radius-full);
+    transition: all var(--transition-base);
+    margin-bottom: var(--space-lg);
+}
+
+.exportBtn:hover {
+    background: var(--color-accent-subtle);
+    border-color: rgba(232, 168, 124, 0.3);
+}
+
+/* ── Empty State ── */
+.emptyState {
+    text-align: center;
+    padding: var(--space-4xl) var(--space-lg);
+    color: var(--color-text-muted);
+}
+
+.emptyIcon {
+    font-size: 2.5rem;
+    margin-bottom: var(--space-md);
+    opacity: 0.5;
+}
+
+.emptyText {
+    font-size: 0.875rem;
+}
+
+/* ── Edit Modal ── */
+.editOverlay {
+    position: fixed;
+    inset: 0;
+    background: var(--color-bg-overlay);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-lg);
+    animation: fadeIn var(--transition-base) ease;
+}
+
+.editModal {
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-2xl);
+    width: 100%;
+    max-width: 480px;
+    box-shadow: var(--shadow-lg);
+    animation: scaleIn var(--transition-spring) ease;
+}
+
+.editTitle {
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    margin-bottom: var(--space-lg);
+}
+
+.editTextarea {
+    width: 100%;
+    min-height: 120px;
+    padding: var(--space-md);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: 0.95rem;
+    font-family: var(--font-serif);
+    color: var(--color-text-primary);
+    resize: vertical;
+    margin-bottom: var(--space-md);
+    line-height: 1.6;
+}
+
+.editTextarea:focus {
+    border-color: var(--color-accent);
+}
+
+.editInput {
+    width: 100%;
+    padding: var(--space-md);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-lg);
+}
+
+.editInput:focus {
+    border-color: var(--color-accent);
+}
+
+.editInput::placeholder,
+.editTextarea::placeholder {
+    color: var(--color-text-muted);
+}
+
+.editActions {
+    display: flex;
+    gap: var(--space-sm);
+    justify-content: flex-end;
+}
+
+.editCancel {
+    padding: var(--space-sm) var(--space-lg);
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+}
+
+.editCancel:hover {
+    border-color: var(--color-border-hover);
+}
+
+.editSave {
+    padding: var(--space-sm) var(--space-lg);
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, var(--color-accent), #d4956a);
+    color: var(--color-bg);
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+}
+
+.editSave:hover {
+    box-shadow: var(--shadow-glow);
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .adminHeader {
+        padding: var(--space-md) var(--space-md);
+    }
+
+    .tabs {
+        padding: 0 var(--space-md);
+        overflow-x: auto;
+    }
+
+    .adminContent {
+        padding: var(--space-md);
+    }
+
+    .rowContent {
+        flex-direction: column;
+    }
+
+    .rowActions {
+        flex-wrap: wrap;
+    }
+
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
